@@ -13,6 +13,7 @@ var host = new HostBuilder()
         if (!context.HostingEnvironment.IsProduction())
         {
             config.AddJsonFile("local.settings.json", optional: true, reloadOnChange: true);
+            config.AddJsonFile("settings.json", optional: true, reloadOnChange: true);
         }
     })
     .ConfigureServices((context, services) =>
@@ -30,10 +31,13 @@ var host = new HostBuilder()
             context.Configuration.GetSection("BotConfiguration").Bind(options);
             
             // Then set runtime values
-            var hostname = context.Configuration["WEBSITE_HOSTNAME"];
-            options.BaseUrl = string.IsNullOrEmpty(hostname) 
-                ? "http://localhost:7071" 
-                : $"http://{hostname}";
+            if (string.IsNullOrEmpty(options.BaseUrl))
+            {
+                var hostname = context.Configuration["WEBSITE_HOSTNAME"];
+                options.BaseUrl = string.IsNullOrEmpty(hostname) 
+                    ? "http://localhost:7071" 
+                    : $"http://{hostname}";
+            }
         });
     })
     .Build();

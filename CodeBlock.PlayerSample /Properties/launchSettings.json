@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "BattleBots.RedBot": {
+    "CodeBlock.PlayerSample": {
       "commandName": "Project",
       "commandLineArgs": "--port 7175",
       "launchBrowser": false
